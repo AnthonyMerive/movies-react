@@ -20,7 +20,7 @@ export default function Routes() {
         <Navbar />
 
         <Switch>
-            <Route exact path="/">
+            <Route exact path="/movies-react">
                 <MovieList />
             </Route>
 
