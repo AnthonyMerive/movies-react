@@ -24,23 +24,23 @@ export default function Routes() {
                 <MovieList />
             </Route>
 
-            <Route exact path="/details/:id">
+            <Route exact path="/movies-react/details/:id">
                 <MovieDetails />
             </Route>
 
-            <Route exact path="/mostvoted">
+            <Route exact path="/movies-react/mostvoted">
                 <MostVoted />
             </Route>
 
-            <Route exact path="/leastvoted">
+            <Route exact path="/movies-react/leastvoted">
                 <LeastVoted />
             </Route>
 
-            <Route exact path="/login">
+            <Route exact path="/movies-react/login">
                 <UserContainer />
             </Route>
 
-            <Route exact path="/register">
+            <Route exact path="/movies-react/register">
                 <Register />
             </Route>
 

@@ -110,7 +110,7 @@ export default function MovieDetails() {
                 <p><strong>Genres:</strong> {pelicula.genres.map(gen => gen.name).join(", ")}</p>
                 <p><strong>Release date:</strong> {pelicula.release_date}</p>
                 <div className="buttons">
-                <Link to="/"><button className="back"><strong>Go Back</strong></button></Link>
+                <Link to="/movies-react"><button className="back"><strong>Go Back</strong></button></Link>
                 <button className="play"><strong>▶ Play</strong></button>
                 </div>
                 </div>

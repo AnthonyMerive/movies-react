@@ -4,8 +4,6 @@ import md5 from 'md5'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
-
-
 const URL = 'https://apialbum.herokuapp.com/usuario'
 
 const StyldedContainer = styled.div`
@@ -139,7 +137,7 @@ export default class Login extends Component {
 
                     <div className="">
                     <Link
-                        to="/register"
+                        to="/movies-react/register"
                         className="Link"
                     >
                         Create new account

@@ -44,7 +44,7 @@ export default function MoviesCards({ movie }) {
     return (<StyledContainer>
 
         <li className="movieCard">
-            <Link to={"/details/" + movie.id}>
+            <Link to={"/movies-react/details/" + movie.id}>
                 <img width={230} height={345} className="movieImg" src={imgURL} alt={movie.title} />
             </Link>
             <div className="titulos">
