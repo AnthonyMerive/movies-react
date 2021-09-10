@@ -5,6 +5,7 @@ import MovieDetails from '../components/MovieDetails'
 // import MovieList from '../components/MoviesList'
 import Navbar from '../components/Main'
 import Register from '../components/Register'
+import Trailer from '../components/Trailer'
 import UserContainer from '../containers/UserContainer'
 
 import {
@@ -24,6 +25,10 @@ export default function Routes() {
 
             <Route exact path="/movies-react/details/:id">
                 <MovieDetails />
+            </Route>
+
+            <Route exact path="/movies-react/details/trailer/:id">
+                <Trailer />
             </Route>
 
             {/* <Route exact path="/movies-react/mostvoted">

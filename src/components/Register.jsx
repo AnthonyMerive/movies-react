@@ -156,7 +156,7 @@ export default class Registro extends Component {
                     <br />
                     <br />
                     <Link
-                        to="/login"
+                        to="/movies-react/login"
                         className="link"
                     >
                         Already registered?

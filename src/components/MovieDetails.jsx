@@ -1,8 +1,9 @@
 import React from 'react'
 import { useEffect, useState } from 'react'
-import {Link, useParams} from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import styled from 'styled-components'
-
+// import Trailer from './Trailer'
+import Swal from 'sweetalert2'
 
 const StyledContainer = styled.div`
 
@@ -71,36 +72,74 @@ const StyledContainer = styled.div`
         max-width: 400px;
     }
 
+    .trailer{
+        display: flex;
+        justify-content: center;
+    }
+
 `
 
 export default function MovieDetails() {
-        
+
     const { id } = useParams();
-   
+
     const [pelicula, setPelicula] = useState(null);
-    
+    const [trailer, setTrailer] = useState([]);
+    // const [mostrar, setMostrar] = useState(false);
+
     useEffect(() => {
-        fetch("https://api.themoviedb.org/3/movie/"+id, {
+        fetch("https://api.themoviedb.org/3/movie/" + id, {
 
             headers: {
                 Authorization:
-                "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkMzVjODMyMTQ5OTcyMzA3YmMzY2I3MjNjNWQ2NWJmNyIsInN1YiI6IjYxMzUwN2VmMGI1ZmQ2MDA4ODc1NmIyMyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.3MHlpc-jN7rwbAduamFy8U76V9e1bfCvUcZut5Clkso",
+                    "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkMzVjODMyMTQ5OTcyMzA3YmMzY2I3MjNjNWQ2NWJmNyIsInN1YiI6IjYxMzUwN2VmMGI1ZmQ2MDA4ODc1NmIyMyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.3MHlpc-jN7rwbAduamFy8U76V9e1bfCvUcZut5Clkso",
                 "Content-Type": "application/json;charset=utf-8",
             },
         })
-        .then(result => result.json())
-        .then(data => setPelicula(data))
-        
-    },[id]); 
+            .then(result => result.json())
+            .then(data => setPelicula(data))
 
-    if(!pelicula){
+        fetch(`https://api.themoviedb.org/3/movie/${id}/videos`, {
+
+            headers: {
+                Authorization:
+                    "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkMzVjODMyMTQ5OTcyMzA3YmMzY2I3MjNjNWQ2NWJmNyIsInN1YiI6IjYxMzUwN2VmMGI1ZmQ2MDA4ODc1NmIyMyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.3MHlpc-jN7rwbAduamFy8U76V9e1bfCvUcZut5Clkso",
+                "Content-Type": "application/json;charset=utf-8",
+            },
+        })
+            .then(res => res.json())
+            .then(dat => setTrailer(dat.results))
+
+    }, [id]);
+
+    if (!pelicula) {
         return null
     }
-    console.log(pelicula);
+
+    if (!trailer) {
+        return []
+    }
+
+    let url = ''
+
+    if(trailer.length > 0 ){
+    url = `https://www.youtube.com/embed/${trailer[0].key}`
+    } 
+       
+    const handleMostrar = () => {
+        Swal.fire({
+            html:
+            `<iframe width="450" height="300" src=${url} title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>`,
+            confirmButtonText: 'Go Back',
+            background: 'hsla(0, 0%, 0%, 0.856)',
+          })
+        // setMostrar(true);
+    }
+
     const imgURL = "https://image.tmdb.org/t/p/w300" + pelicula.poster_path
-    
+
     return (<StyledContainer>
-        
+
         <div className="container">
 
             <img src={imgURL} alt="{pelicula.title}" />
@@ -111,10 +150,23 @@ export default function MovieDetails() {
                 <p><strong>Genres:</strong> {pelicula.genres.map(gen => gen.name).join(", ")}</p>
                 <p><strong>Release date:</strong> {pelicula.release_date}</p>
                 <div className="buttons">
-                <Link to="/movies-react"><button className="back"><strong>Go Back</strong></button></Link>
-                <button className="play"><strong>▶ Play</strong></button>
+                    <Link to="/movies-react"><button className="back"><strong>Go Back</strong></button></Link>
+                    {trailer.length === 0 ?
+                        <button type="button" class="btn btn-secondary  ms-2" disabled><strong>▶ Trailer</strong></button>
+                        :
+                        <button onClick={handleMostrar} className="play"><strong>▶ Trailer</strong></button>
+                    }
                 </div>
-                </div>
+
+            </div>
+            
         </div>
+
+        {/* <div className="trailer">
+            {mostrar ?
+                <Trailer trailer={trailer} />
+                : ''
+            }
+        </div>          */}
     </StyledContainer>)
 }
