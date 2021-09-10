@@ -2,13 +2,9 @@ import React from 'react'
 import { useEffect, useState } from 'react'
 import MovieCard from './MoviesCards'
 import styled from 'styled-components'
+import useQuery from '../Hoocs/useQuery'
 
 const StyledContainer = styled.div`
-    .estrenos{
-        color: white;
-        text-align: center;
-        margin-top: 20px;
-    }
 
     .movieGrid{
         display: grid;
@@ -18,33 +14,53 @@ const StyledContainer = styled.div`
         justify-content: center;
     }
 `
-export default function MoviesList() {
+
+export default function MoviesList({most, all, setAll}) {
 
     const [peliculas, setPeliculas] = useState([]);
+    
+
+    //aplicando Custom Hook de router dom
+    const query = useQuery();
+    const busqueda = query.get('search');
 
     useEffect(() => {
-        fetch("https://api.themoviedb.org/3/discover/movie", {
+        setAll(true)
+        const complemento = 
+        busqueda ? `/search/movie?query=${busqueda}`
+        :'/discover/movie' 
+
+        fetch(`https://api.themoviedb.org/3${complemento}`, {
 
             headers: {
                 Authorization:
                     "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkMzVjODMyMTQ5OTcyMzA3YmMzY2I3MjNjNWQ2NWJmNyIsInN1YiI6IjYxMzUwN2VmMGI1ZmQ2MDA4ODc1NmIyMyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.3MHlpc-jN7rwbAduamFy8U76V9e1bfCvUcZut5Clkso",
-                "Content-Type": "application/json;charset=utf-8",
+                    "Content-Type": "application/json;charset=utf-8",
             },
         })
             .then(result => result.json())
             .then(data => setPeliculas(data.results))
-    }, []);
 
-    peliculas.map(movie =>
-    console.log(`https://image.tmdb.org/t/p/w300${movie.poster_path}`))
-    
+    }, [busqueda,setAll]);
+ 
+    let mostFilter = peliculas.filter(peli => peli.vote_average >= 7)
+    let leastFilter = peliculas.filter(peli => peli.vote_average < 7)
+
     return (<StyledContainer>
-        
-            <h2 className="estrenos">Latest Releases 🎬</h2>
+
             <ul className="movieGrid">
-                {peliculas.map(movie =>
+                
+                {all?
+                peliculas.map(movie =>
                     <MovieCard key={movie.id} movie={movie} />
-                )}
+                ):most?mostFilter.map(movie =>
+                    <MovieCard key={movie.id} movie={movie} />
+                ):
+                leastFilter.map(movie =>
+                    <MovieCard key={movie.id} movie={movie} />
+                )
+                }
+
             </ul>
 
         </StyledContainer>)
