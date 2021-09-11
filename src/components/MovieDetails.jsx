@@ -124,7 +124,7 @@ export default function MovieDetails() {
     let url = ''
 
     if(trailer.length > 0 ){
-    url = `https://www.youtube.com/embed/${trailer[0].key}`
+    url = `https://www.youtube.com/embed/${trailer[0].key}?controls=0;rel=0&amp;autoplay=1`
     } 
        
     const handleMostrar = () => {
@@ -137,7 +137,6 @@ export default function MovieDetails() {
           })
         // setMostrar(true);
     }
-
     const imgURL = "https://image.tmdb.org/t/p/w300" + pelicula.poster_path
 
     return (<StyledContainer>
