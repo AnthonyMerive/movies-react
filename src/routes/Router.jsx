@@ -3,7 +3,7 @@ import MovieDetails from '../components/MovieDetails'
 // import MostVoted from '../components/MostVoted'
 // import LeastVoted from '../components/LeastVoted'
 // import MovieList from '../components/MoviesList'
-import Navbar from '../components/Main'
+import Main from '../components/Main'
 import Register from '../components/Register'
 import Trailer from '../components/Trailer'
 import UserContainer from '../containers/UserContainer'
@@ -16,11 +16,13 @@ import {
 
 
 export default function Routes() {
+
     return (<Router>
 
+        
         <Switch>
-            <Route exact path="/movies-react">
-                <Navbar />
+            <Route exact path="/movies-react/">
+                <Main />
             </Route>
 
             <Route exact path="/movies-react/details/:id">

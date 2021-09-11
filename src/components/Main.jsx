@@ -15,7 +15,7 @@ const StyledEstrenos = styled.div`
 
 const StyledImg = styled.img`
 width: 35px;
-margin: 10px;
+margin: 10px 10px;
 `
 const StyledLogo = styled.img`
 width: 80px;
@@ -64,9 +64,9 @@ export default function Navbar() {
                             <StyledSpan onClick={handleClickAll} className="nav-link">All..</StyledSpan>
                         </li>
                     </ul>
-                    <Link to="/movies-react/login"><StyledImg src="https://res.cloudinary.com/df8qzqymf/image/upload/v1631059145/Microsoft_Account_c4ealf.svg" alt="" srcset="" /></Link>
                 </div>
-                    <Search />
+                <Link to="/movies-react/login"><StyledImg src="https://res.cloudinary.com/df8qzqymf/image/upload/v1631059145/Microsoft_Account_c4ealf.svg" alt="" srcset="" /></Link>
+                    <Search/>
             </div>
         </nav>
 

@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { useHistory } from 'react-router';
 import styled from 'styled-components'
 
 const StyledContainer = styled.div`
@@ -38,18 +39,22 @@ const StyledContainer = styled.div`
 export default function MoviesCards({ movie }) {
 
     const imgURL = "https://image.tmdb.org/t/p/w300" + movie.poster_path
+    const historial = useHistory();
 
-    const v = movie.vote_average;
-
+    const handleHistorial = (e) => {
+        e.stopPropagation();
+        localStorage.setItem('historial', historial.location.search)
+    }
+    
     return (<StyledContainer>
 
         <li className="movieCard">
-            <Link to={"/movies-react/details/" + movie.id}>
+            <Link onClick={handleHistorial} to={"/movies-react/details/" + movie.id}>
                 <img width={230} height={345} className="movieImg" src={imgURL} alt={movie.title} />
             </Link>
             <div className="titulos">
                 <span>{movie.title}</span>
-                <p className={v >= 7 ? 'text-success' : 'text-danger'}>{movie.vote_average} {v >= 7 ? '✔️' : '❌'}</p>
+                <p className={movie.vote_average >= 7 ? 'text-success' : 'text-danger'}>{movie.vote_average} {movie.vote_average >= 7 ? '✔️' : '❌'}</p>
             </div>
         </li>
 

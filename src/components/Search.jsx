@@ -25,7 +25,7 @@ export default function Search() {
         e.preventDefault()
         historial.push("/movies-react/?search=" + search)
     }
-    
+
     return (
         <>
             <form className="d-flex" onSubmit={handleSubmit}>

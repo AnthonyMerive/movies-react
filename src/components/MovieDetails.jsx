@@ -86,6 +86,7 @@ export default function MovieDetails() {
     const [pelicula, setPelicula] = useState(null);
     const [trailer, setTrailer] = useState([]);
     // const [mostrar, setMostrar] = useState(false);
+    let urlBusqueda = localStorage.getItem('historial')
 
     useEffect(() => {
         fetch("https://api.themoviedb.org/3/movie/" + id, {
@@ -128,6 +129,7 @@ export default function MovieDetails() {
        
     const handleMostrar = () => {
         Swal.fire({
+            title: `<h2 style="color: white">${pelicula.title}</h2> Official Trailer`,
             html:
             `<iframe width="450" height="300" src=${url} title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>`,
             confirmButtonText: 'Go Back',
@@ -146,13 +148,17 @@ export default function MovieDetails() {
 
             <div className="col">
                 <p className="titulo"><strong>{pelicula.title}</strong></p>
-                <p><strong>Description:</strong> {pelicula.overview}</p>
+                <p><strong>Description: </strong>
+                {pelicula.overview === ''?
+                <span>No description in the server</span>
+                :<span>{pelicula.overview}</span>
+                 }</p>
                 <p><strong>Genres:</strong> {pelicula.genres.map(gen => gen.name).join(", ")}</p>
                 <p><strong>Release date:</strong> {pelicula.release_date}</p>
                 <div className="buttons">
-                    <Link to="/movies-react"><button className="back"><strong>Go Back</strong></button></Link>
+                    <Link to={urlBusqueda ===null?'/movies-react':`/movies-react/${urlBusqueda}`}><button className="back"><strong>Go Back</strong></button></Link>
                     {trailer.length === 0 ?
-                        <button type="button" class="btn btn-secondary  ms-2" disabled><strong>▶ Trailer</strong></button>
+                        <button type="button" className="btn btn-secondary  ms-2" disabled><strong>▶ Trailer</strong></button>
                         :
                         <button onClick={handleMostrar} className="play"><strong>▶ Trailer</strong></button>
                     }
