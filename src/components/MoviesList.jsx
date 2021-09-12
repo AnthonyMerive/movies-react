@@ -15,7 +15,7 @@ const StyledContainer = styled.div`
     }
 `
 
-export default function MoviesList({most, all, setAll}) {
+export default function MoviesList({most, all, setAll, page}) {
 
     const [peliculas, setPeliculas] = useState([]);
     
@@ -27,22 +27,15 @@ export default function MoviesList({most, all, setAll}) {
     useEffect(() => {
         setAll(true)
         const complemento = 
-        busqueda ? `/search/movie?query=${busqueda}`
-        :'/discover/movie' 
+        busqueda ? `/search/movie?api_key=d35c832149972307bc3cb723c5d65bf7&query=${busqueda}&page=${page}`
+        :`/discover/movie?api_key=d35c832149972307bc3cb723c5d65bf7&page=${page}` 
 
-        fetch(`https://api.themoviedb.org/3${complemento}`, {
-
-            headers: {
-                Authorization:
-                    "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkMzVjODMyMTQ5OTcyMzA3YmMzY2I3MjNjNWQ2NWJmNyIsInN1YiI6IjYxMzUwN2VmMGI1ZmQ2MDA4ODc1NmIyMyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.3MHlpc-jN7rwbAduamFy8U76V9e1bfCvUcZut5Clkso",
-                    "Content-Type": "application/json;charset=utf-8",
-            },
-        })
+        fetch(`https://api.themoviedb.org/3${complemento}`)
             .then(result => result.json())
             .then(data => setPeliculas(data.results))
 
-    }, [busqueda,setAll]);
- 
+    }, [busqueda,setAll,page]);
+
     let mostFilter = peliculas.filter(peli => peli.vote_average >= 7)
     let leastFilter = peliculas.filter(peli => peli.vote_average < 7)
 

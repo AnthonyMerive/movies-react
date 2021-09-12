@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useHistory } from 'react-router';
 import useQuery from '../Hoocs/useQuery'
 
-export default function Search() {
+export default function Search({page, setPage}) {
 
     const [search, setSearch] = useState('')
     const historial = useHistory();
@@ -23,6 +23,7 @@ export default function Search() {
 
     const handleSubmit = (e) => {
         e.preventDefault()
+        setPage(1);
         historial.push("/movies-react/?search=" + search)
     }
 

@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import Search from './Search'
 import MoviesList from './MoviesList'
+import Slider from './Slider'
 
 const StyledEstrenos = styled.div`
     Font-size: 32px;
@@ -14,27 +15,34 @@ const StyledEstrenos = styled.div`
 `
 
 const StyledImg = styled.img`
-width: 35px;
-margin: 10px 10px;
+    width: 35px;
+    margin: 10px 10px;
 `
 const StyledLogo = styled.img`
-width: 80px;
+    width: 80px;
 `
 
 const StyledSpan = styled.a`
-cursor: pointer;
+    cursor: pointer;
 `
+const StyledPagination = styled.div`
+    display: flex;
+    justify-content: center;
+
+`
+
 export default function Navbar() {
 
+    const [page, setPage] = useState(1);
     const [most, setMost] = useState(false);
     const [all, setAll] = useState(true);
 
-    const handleClickMost= () => {
+    const handleClickMost = () => {
         setMost(true)
         setAll(false)
     }
 
-    const handleClickLeast= () => {
+    const handleClickLeast = () => {
         setMost(false)
         setAll(false)
     }
@@ -42,6 +50,26 @@ export default function Navbar() {
     const handleClickAll = () => {
         setAll(true)
         setMost(false)
+        setPage(1)
+    }
+
+
+    const handlePrevPage = async (e) => {
+        e.stopPropagation()
+
+        setPage(page - 1)
+
+        console.log(page)
+
+    }
+
+    const handleNextPage = async (e) => {
+        e.stopPropagation()
+
+        setPage(page + 1)
+
+        console.log(page)
+
     }
 
     return (<>
@@ -66,17 +94,44 @@ export default function Navbar() {
                     </ul>
                 </div>
                 <Link to="/movies-react/login"><StyledImg src="https://res.cloudinary.com/df8qzqymf/image/upload/v1631059145/Microsoft_Account_c4ealf.svg" alt="" srcset="" /></Link>
-                    <Search/>
+
+                <Search setPage={setPage} />
+
             </div>
         </nav>
 
+        <Slider />
+
         <StyledEstrenos>{
-        all?'🎬 All Movies'
-        :most?'👍 Most voted'
-        :'👎 Least voted'
+            all ? '🎬 All Movies'
+                : most ? '👍 Most voted'
+                    : '👎 Least voted'
         }</StyledEstrenos>
 
-        <MoviesList most={most} all={all} setAll={setAll}/>
-        
+        <StyledPagination className="mt-5">
+            {page >= 2 ?
+                <button className="btn btn-outline-secondary m-3" onClick={handlePrevPage}>◀ previous</button>
+                :
+                ''
+            }
+
+            <h3 className="text-light m-3">{page}</h3>
+
+            <button className="btn btn-outline-secondary m-3" onClick={handleNextPage}>next ▶</button>
+        </StyledPagination>
+
+        <MoviesList most={most} all={all} setAll={setAll} page={page} />
+
+        <StyledPagination>
+            {page >= 2 ?
+                <button className="btn btn-outline-secondary m-3" onClick={handlePrevPage}>◀ previous</button>
+                :
+                ''
+            }
+
+            <h3 className="text-light m-3">{page}</h3>
+
+            <button className="btn btn-outline-secondary m-3" onClick={handleNextPage}>next ▶</button>
+        </StyledPagination>
     </>)
 }
