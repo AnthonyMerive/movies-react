@@ -5,6 +5,8 @@ import styled from 'styled-components'
 import Search from './Search'
 import MoviesList from './MoviesList'
 import Slider from './Slider'
+import Offcanvas from 'react-bootstrap/Offcanvas'
+import Login from './Login'
 
 const StyledEstrenos = styled.div`
     Font-size: 32px;
@@ -17,6 +19,7 @@ const StyledEstrenos = styled.div`
 const StyledImg = styled.img`
     width: 35px;
     margin: 10px 10px;
+    cursor: pointer;
 `
 const StyledLogo = styled.img`
     width: 80px;
@@ -36,6 +39,7 @@ export default function Navbar() {
     const [page, setPage] = useState(1);
     const [most, setMost] = useState(false);
     const [all, setAll] = useState(true);
+    const [show, setShow] = useState(false)
 
     const handleClickMost = () => {
         setMost(true)
@@ -72,6 +76,9 @@ export default function Navbar() {
 
     }
 
+    const handleShow = () => setShow(true);
+    const handleClose = () => setShow(false);
+
     return (<>
 
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -93,7 +100,8 @@ export default function Navbar() {
                         </li>
                     </ul>
                 </div>
-                <Link to="/movies-react/login"><StyledImg src="https://res.cloudinary.com/df8qzqymf/image/upload/v1631059145/Microsoft_Account_c4ealf.svg" alt="" srcset="" /></Link>
+
+                <StyledImg onClick={handleShow} src="https://res.cloudinary.com/df8qzqymf/image/upload/v1631059145/Microsoft_Account_c4ealf.svg" alt="" srcset="" />
 
                 <Search setPage={setPage} />
 
@@ -133,5 +141,12 @@ export default function Navbar() {
 
             <button className="btn btn-outline-secondary m-3" onClick={handleNextPage}>next ▶</button>
         </StyledPagination>
+        
+        <Offcanvas className="bg-dark" placement="end" show={show} onHide={handleClose}>
+        <Offcanvas.Header closeButton />
+            <Offcanvas.Body>
+                <Login />
+            </Offcanvas.Body>
+    </Offcanvas>
     </>)
 }

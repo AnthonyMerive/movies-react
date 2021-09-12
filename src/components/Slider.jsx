@@ -17,10 +17,10 @@ export default function Slider() {
 
     return (<>
 
-        <Carousel fade interval={3000} className="m-1 justify-content-center">
+        <Carousel fade interval={8000} className="m-1 justify-content-center">
             {peliculas.map(movie=>
                 <Carousel.Item key={movie.id}>
-                    <img height={380}
+                    <img fluid height={380}
                         className="justify-content-center d-felx w-100"
                         src={imgURL+movie.backdrop_path}
                         alt="imagen"
