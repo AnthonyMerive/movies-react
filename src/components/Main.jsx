@@ -129,7 +129,7 @@ export default function Navbar() {
                 {usuario === null ?
                     <StyledImg className="ms-1" onClick={handleShow} src="https://res.cloudinary.com/df8qzqymf/image/upload/v1631059145/Microsoft_Account_c4ealf.svg" alt="" srcset="" />
                     :
-                    <button onClick={handleShow} className="btn btn-outline-secondary text-light mb-3">{usuario}</button>
+                    <button onClick={handleShow} className="btn btn-outline-secondary text-light mb-3 mb-lg-0 me-lg-2">{usuario}</button>
                 }
 
             </div>
