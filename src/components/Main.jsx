@@ -7,6 +7,8 @@ import MoviesList from './MoviesList'
 import Slider from './Slider'
 import Offcanvas from 'react-bootstrap/Offcanvas'
 import Login from './Login'
+import Register from './Register'
+import User from './User'
 
 const StyledEstrenos = styled.div`
     Font-size: 32px;
@@ -39,7 +41,9 @@ export default function Navbar() {
     const [page, setPage] = useState(1);
     const [most, setMost] = useState(false);
     const [all, setAll] = useState(true);
-    const [show, setShow] = useState(false)
+    const [show, setShow] = useState(false);
+    const [showRegister, setShowRegister] = useState(false);
+    const usuario = localStorage.getItem('usuario');
 
     const handleClickMost = () => {
         setMost(true)
@@ -76,8 +80,19 @@ export default function Navbar() {
 
     }
 
-    const handleShow = () => setShow(true);
+    const handleShow = () => {
+        setShow(true)
+        setShowRegister(false)
+    }
+
     const handleClose = () => setShow(false);
+
+    const handleShowRegister = () => {
+        setShowRegister(true)
+        setShow(false)
+    }
+    
+    const handleCloseRegister = () => setShowRegister(false);
 
     return (<>
 
@@ -99,12 +114,27 @@ export default function Navbar() {
                             <StyledSpan onClick={handleClickAll} className="nav-link">All..</StyledSpan>
                         </li>
                     </ul>
-                </div>
+                
+                {usuario === null ?
+                    <button
+                        onClick=
+                        {showRegister ?
+                            handleCloseRegister
+                            : handleShowRegister}
+                        className="btn btn-outline-warning me-1">Register</button>
+                    :
+                    ''
+                }
 
-                <StyledImg onClick={handleShow} src="https://res.cloudinary.com/df8qzqymf/image/upload/v1631059145/Microsoft_Account_c4ealf.svg" alt="" srcset="" />
+                {usuario === null ?
+                    <StyledImg className="ms-1" onClick={handleShow} src="https://res.cloudinary.com/df8qzqymf/image/upload/v1631059145/Microsoft_Account_c4ealf.svg" alt="" srcset="" />
+                    :
+                    <button onClick={handleShow} className="btn btn-outline-secondary text-light mb-3">{usuario}</button>
+                }
 
+            </div>
                 <Search setPage={setPage} />
-
+                
             </div>
         </nav>
 
@@ -141,12 +171,25 @@ export default function Navbar() {
 
             <button className="btn btn-outline-secondary m-3" onClick={handleNextPage}>next ▶</button>
         </StyledPagination>
-        
+
         <Offcanvas className="bg-dark" placement="end" show={show} onHide={handleClose}>
-        <Offcanvas.Header closeButton />
+            <Offcanvas.Header closeButton />
             <Offcanvas.Body>
-                <Login />
+                {usuario === null ?
+                    <Login />
+                    :
+                    <User usuario={usuario} />
+                }
+
             </Offcanvas.Body>
-    </Offcanvas>
+        </Offcanvas>
+
+        <Offcanvas className="bg-dark" placement="start" show={showRegister} onHide={handleCloseRegister}>
+            <Offcanvas.Header closeButton />
+
+            <Offcanvas.Body>
+                <Register />
+            </Offcanvas.Body>
+        </Offcanvas>
     </>)
 }

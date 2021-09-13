@@ -4,9 +4,10 @@ import MovieDetails from '../components/MovieDetails'
 // import LeastVoted from '../components/LeastVoted'
 // import MovieList from '../components/MoviesList'
 import Main from '../components/Main'
-import Register from '../components/Register'
+// import Register from '../components/Register'
 import Trailer from '../components/Trailer'
-import UserContainer from '../containers/UserContainer'
+import Admin from '../components/Admin'
+// import UserContainer from '../containers/UserContainer'
 
 import {
     BrowserRouter as Router,
@@ -33,6 +34,10 @@ export default function Routes() {
                 <Trailer />
             </Route>
 
+            <Route exact path="/movies-react/admin">
+                <Admin />
+            </Route>
+
             {/* <Route exact path="/movies-react/mostvoted">
                 <MostVoted />
             </Route>
@@ -41,13 +46,13 @@ export default function Routes() {
                 <LeastVoted />
             </Route> */}
 
-            <Route exact path="/movies-react/login">
+            {/* <Route exact path="/movies-react/login">
                 <UserContainer />
             </Route>
 
             <Route exact path="/movies-react/register">
                 <Register />
-            </Route>
+            </Route> */}
 
         </Switch>
 

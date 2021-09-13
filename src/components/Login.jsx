@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import md5 from 'md5'
-import { Link } from 'react-router-dom'
+// import { Link } from 'react-router-dom'
 import styled from 'styled-components'
+import Swal from 'sweetalert2'
 
 const URL = 'https://apialbum.herokuapp.com/usuario'
 
@@ -28,6 +29,7 @@ img{
 button{
     margin-bottom: 20px;
 }
+
 `
 
 export default class Login extends Component {
@@ -73,10 +75,25 @@ export default class Login extends Component {
                 if (response.length) {
 
                     const respuesta = response[0];
-                    alert(`Welcome ${respuesta.nombre} ${respuesta.apellido_paterno}`)
-
+                    localStorage.setItem('usuario', respuesta.username);
+                    // alert(`Welcome ${respuesta.nombre} ${respuesta.apellido_paterno}`);
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Welcome',
+                        text: `${respuesta.nombre} ${respuesta.apellido_paterno}`,
+                        background: 'hsla(0, 0%, 0%, 0.856)'
+                      }).then((result) => {
+                        if (result.isConfirmed) {
+                    window.location.reload();
+                        }})
                 } else {
-                    alert('The username or password  is incorrect');
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'The username or password  is incorrect!',
+                        background: 'hsla(0, 0%, 0%, 0.856)'
+                      })
+
                 }
 
             })
@@ -135,13 +152,13 @@ export default class Login extends Component {
                         Login
                     </button>
 
-                    <div className="">
-                    <Link
+                    <div>
+                    {/* <Link
                         to="/movies-react/register"
                         className="Link"
-                    >
+                    > 
                         Create new account
-                    </Link>
+                    </Link>  */}
                     </div>
                     
                 </form>

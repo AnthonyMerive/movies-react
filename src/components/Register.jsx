@@ -2,8 +2,9 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import md5 from 'md5'
 import uuid from 'react-uuid'
-import { Link } from 'react-router-dom'
+// import { Link } from 'react-router-dom'
 import styled from 'styled-components'
+import Swal from 'sweetalert2'
 
 const URL = 'https://apialbum.herokuapp.com/usuario'
 
@@ -11,14 +12,11 @@ const StyldedContainer = styled.div`
         
 display: flex;
 justify-content: center;
-margin: 10px;
-padding: 15px;
 color: #8d8f8f;
 text-align: center;
 
 img{
-    margin: 10px 0;
-    width: 80px;
+    width: 60px;
 }
 
 input{
@@ -62,9 +60,14 @@ export default class Registro extends Component {
         })
 
             .then(response => {
-
-                alert('Usuario Registrado')
-
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Registered user',
+                    background: 'hsla(0, 0%, 0%, 0.856)'
+                  }).then((result) => {
+                    if (result.isConfirmed) {
+                window.location.reload();
+                    }})
             })
 
             .catch(error => {
@@ -100,7 +103,7 @@ export default class Registro extends Component {
                         <img
                             src="https://res.cloudinary.com/df8qzqymf/image/upload/v1631055194/free-add-user-icon-302-thumb_fl3crp.png"
                             alt=""/>
-                        <h3>Create New Account</h3>
+                        <h3>Register</h3>
                     
                         <input
                             type="text"
@@ -155,12 +158,12 @@ export default class Registro extends Component {
                     </button>
                     <br />
                     <br />
-                    <Link
+                    {/* <Link
                         to="/movies-react/login"
                         className="link"
                     >
                         Already registered?
-                    </Link>
+                    </Link> */}
                 </form>
 
         </StyldedContainer>
