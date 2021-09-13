@@ -47,9 +47,49 @@ export default class Registro extends Component {
         }
     }
 
-    registroUsuario = async () => {
-        await axios.post(URL, {
+    verificaUsuario = async () => {
+        await axios.get(URL, {
+            params: {
+                username: this.state.usuarios.username,
+                password: md5(this.state.usuarios.password)
+            }
+        }
+        )
 
+            .then(response => {
+
+                const respuesta = response.data
+
+                const usuario = respuesta.map(user => user.username)
+
+                if (usuario.length > 0) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'the email is being used, try again with another email',
+                        background: 'hsla(0, 0%, 0%, 0.856)'
+                    })
+
+                } else if (this.state.usuarios.apellido_paterno === '' && this.state.usuarios.nombre === ''
+                    && this.state.usuarios.username === '' && this.state.usuarios.password === '') {
+
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'fill in all inputs',
+                        background: 'hsla(0, 0%, 0%, 0.856)'
+                    })
+
+                } else {
+                    this.registroUsuario()
+                }
+
+            }
+            )
+
+    }
+    registroUsuario = async () => {
+
+        await axios.post(URL, {
             id: uuid,
             apellido_paterno: this.state.usuarios.apellido_paterno,
             apellido_materno: this.state.usuarios.apellido_materno,
@@ -59,15 +99,17 @@ export default class Registro extends Component {
 
         })
 
+
             .then(response => {
                 Swal.fire({
                     icon: 'success',
-                    title: 'Registered user',
+                    title: 'Registered user successfully',
                     background: 'hsla(0, 0%, 0%, 0.856)'
-                  }).then((result) => {
+                }).then((result) => {
                     if (result.isConfirmed) {
-                window.location.reload();
-                    }})
+                        window.location.reload();
+                    }
+                })
             })
 
             .catch(error => {
@@ -79,7 +121,7 @@ export default class Registro extends Component {
 
     handleSutmit = (e) => {
         e.preventDefault();
-        this.registroUsuario();
+        this.verificaUsuario();
     }
 
     handleChange = async (e) => {
@@ -90,66 +132,65 @@ export default class Registro extends Component {
                 [e.target.name]: e.target.value
             }
         });
-        console.log(this.state.usuarios)
 
     }
 
     render() {
         return (<>
-        <StyldedContainer>
+            <StyldedContainer>
 
                 <form className="form-signin" onSubmit={this.handleSutmit}>
-                    
-                        <img
-                            src="https://res.cloudinary.com/df8qzqymf/image/upload/v1631055194/free-add-user-icon-302-thumb_fl3crp.png"
-                            alt=""/>
-                        <h3>Register</h3>
-                    
-                        <input
-                            type="text"
-                            placeholder="First Last-name"
-                            name="apellido_paterno"
-                            className="form-control mt-4"
-                            autoComplete="off"
-                            onChange={this.handleChange}
-                        />
 
-                        <input
-                            type="text"
-                            placeholder="Second Last-name"
-                            name="apellido_materno"
-                            className="form-control mt-1"
-                            autoComplete="off"
-                            required=""
-                            onChange={this.handleChange}
-                        />
+                    <img
+                        src="https://res.cloudinary.com/df8qzqymf/image/upload/v1631055194/free-add-user-icon-302-thumb_fl3crp.png"
+                        alt="" />
+                    <h3>Register</h3>
 
-                        <input
-                            type="text"
-                            name="nombre"
-                            className="form-control mt-1"
-                            placeholder="Name"
-                            required=""
-                            onChange={this.handleChange}
-                        />
+                    <input
+                        type="text"
+                        placeholder="First Last-name"
+                        name="apellido_paterno"
+                        className="form-control mt-4"
+                        autoComplete="off"
+                        onChange={this.handleChange}
+                    />
 
-                        <input
-                            type="email"
-                            name="username"
-                            className="form-control mt-1"
-                            placeholder="Email"
-                            required=""
-                            onChange={this.handleChange}
-                        />
+                    <input
+                        type="text"
+                        placeholder="Second Last-name"
+                        name="apellido_materno"
+                        className="form-control mt-1"
+                        autoComplete="off"
+                        required=""
+                        onChange={this.handleChange}
+                    />
 
-                        <input
-                            type="Password"
-                            name="password"
-                            className="form-control mt-1"
-                            placeholder="Password"
-                            required=""
-                            onChange={this.handleChange}
-                        />
+                    <input
+                        type="text"
+                        name="nombre"
+                        className="form-control mt-1"
+                        placeholder="Name"
+                        required=""
+                        onChange={this.handleChange}
+                    />
+
+                    <input
+                        type="email"
+                        name="username"
+                        className="form-control mt-1"
+                        placeholder="Email"
+                        required=""
+                        onChange={this.handleChange}
+                    />
+
+                    <input
+                        type="Password"
+                        name="password"
+                        className="form-control mt-1"
+                        placeholder="Password"
+                        required=""
+                        onChange={this.handleChange}
+                    />
                     <button
                         type="submit"
                         className="btn btn-primary btn-block mb-1"
@@ -166,7 +207,7 @@ export default class Registro extends Component {
                     </Link> */}
                 </form>
 
-        </StyldedContainer>
+            </StyldedContainer>
         </>)
     }
 }

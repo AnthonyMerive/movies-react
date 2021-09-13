@@ -76,7 +76,6 @@ export default class Login extends Component {
 
                     const respuesta = response[0];
                     localStorage.setItem('usuario', respuesta.username);
-                    // alert(`Welcome ${respuesta.nombre} ${respuesta.apellido_paterno}`);
                     Swal.fire({
                         icon: 'success',
                         title: 'Welcome',

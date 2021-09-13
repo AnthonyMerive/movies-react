@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useHistory } from 'react-router';
 import useQuery from '../Hoocs/useQuery'
 
-export default function Search({page, setPage}) {
+export default function Search({setPage}) {
 
     const [search, setSearch] = useState('')
     const historial = useHistory();
