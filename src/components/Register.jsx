@@ -90,7 +90,7 @@ export default class Registro extends Component {
     registroUsuario = async () => {
 
         await axios.post(URL, {
-            id: uuid,
+            id: uuid(),
             apellido_paterno: this.state.usuarios.apellido_paterno,
             apellido_materno: this.state.usuarios.apellido_materno,
             nombre: this.state.usuarios.nombre,
@@ -148,7 +148,16 @@ export default class Registro extends Component {
 
                     <input
                         type="text"
-                        placeholder="First Last-name"
+                        name="nombre"
+                        className="form-control mt-1"
+                        placeholder="Name"
+                        required=""
+                        onChange={this.handleChange}
+                    />
+
+                    <input
+                        type="text"
+                        placeholder="First Lastname"
                         name="apellido_paterno"
                         className="form-control mt-4"
                         autoComplete="off"
@@ -157,19 +166,10 @@ export default class Registro extends Component {
 
                     <input
                         type="text"
-                        placeholder="Second Last-name"
+                        placeholder="Second Lastname"
                         name="apellido_materno"
                         className="form-control mt-1"
                         autoComplete="off"
-                        required=""
-                        onChange={this.handleChange}
-                    />
-
-                    <input
-                        type="text"
-                        name="nombre"
-                        className="form-control mt-1"
-                        placeholder="Name"
                         required=""
                         onChange={this.handleChange}
                     />

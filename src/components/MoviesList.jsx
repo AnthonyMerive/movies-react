@@ -15,10 +15,10 @@ const StyledContainer = styled.div`
     }
 `
 
-export default function MoviesList({most, all, setAll, page}) {
+export default function MoviesList({ most, all, setAll, page }) {
 
     const [peliculas, setPeliculas] = useState([]);
-    
+
 
     //aplicando Custom Hook de router dom
     const query = useQuery();
@@ -26,35 +26,38 @@ export default function MoviesList({most, all, setAll, page}) {
 
     useEffect(() => {
         setAll(true)
-        const complemento = 
-        busqueda ? `/search/movie?api_key=d35c832149972307bc3cb723c5d65bf7&query=${busqueda}&page=${page}`
-        :`/discover/movie?api_key=d35c832149972307bc3cb723c5d65bf7&page=${page}` 
+        const complemento =
+            busqueda ? `/search/movie?api_key=d35c832149972307bc3cb723c5d65bf7&query=${busqueda}&page=${page}`
+                : `/discover/movie?api_key=d35c832149972307bc3cb723c5d65bf7&page=${page}`
 
         fetch(`https://api.themoviedb.org/3${complemento}`)
             .then(result => result.json())
             .then(data => setPeliculas(data.results))
 
-    }, [busqueda,setAll,page]);
+    }, [busqueda, setAll, page]);
 
     let mostFilter = peliculas.filter(peli => peli.vote_average >= 7)
     let leastFilter = peliculas.filter(peli => peli.vote_average < 7)
-
+    console.log(peliculas)
     return (<StyledContainer>
 
-            <ul className="movieGrid">
-                
-                {all?
+        {peliculas.length === 0 &&
+            <h2 className="d-flex justify-content-center mt-5">-No movies result-</h2>
+        }
+
+        <ul className="movieGrid">
+
+            {all ?
                 peliculas.map(movie =>
                     <MovieCard key={movie.id} movie={movie} />
-                ):most?mostFilter.map(movie =>
+                ) : most ? mostFilter.map(movie =>
                     <MovieCard key={movie.id} movie={movie} />
-                ):
-                leastFilter.map(movie =>
+                ) : leastFilter.map(movie =>
                     <MovieCard key={movie.id} movie={movie} />
                 )
-                }
+            }
 
-            </ul>
+        </ul>
 
-        </StyledContainer>)
+    </StyledContainer>)
 }

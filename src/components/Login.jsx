@@ -81,17 +81,18 @@ export default class Login extends Component {
                         title: 'Welcome',
                         text: `${respuesta.nombre} ${respuesta.apellido_paterno}`,
                         background: 'hsla(0, 0%, 0%, 0.856)'
-                      }).then((result) => {
+                    }).then((result) => {
                         if (result.isConfirmed) {
-                    window.location.reload();
-                        }})
+                            window.location.reload();
+                        }
+                    })
                 } else {
                     Swal.fire({
                         icon: 'error',
                         title: 'Oops...',
                         text: 'The username or password  is incorrect!',
                         background: 'hsla(0, 0%, 0%, 0.856)'
-                      })
+                    })
 
                 }
 
@@ -109,12 +110,12 @@ export default class Login extends Component {
         this.iniciarSesion()
     }
 
- 
+
     render() {
-        
-       
+
+
         return (<>
-        
+
             <StyldedContainer>
 
                 <form className="form-signin" onSubmit={this.handleSubmit}>
@@ -152,14 +153,14 @@ export default class Login extends Component {
                     </button>
 
                     <div>
-                    {/* <Link
+                        {/* <Link
                         to="/movies-react/register"
                         className="Link"
                     > 
                         Create new account
                     </Link>  */}
                     </div>
-                    
+
                 </form>
 
             </StyldedContainer>

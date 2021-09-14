@@ -13,7 +13,7 @@ export default function Slider() {
 
     }, []);
 
-    const imgURL = "https://image.tmdb.org/t/p/original"
+    const imgURL = "https://image.tmdb.org/t/p/w1280"
 
     return (<>
 
