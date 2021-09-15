@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import styled from 'styled-components'
 import Swal from 'sweetalert2'
-import axios from 'axios'
-// import AdminEdit from './AdminEdit'
+import EditAdmin from './EditAdmin'
 
 const StyldedContainer = styled.div`
     display: flex;
@@ -40,22 +39,20 @@ const StyldedContainer = styled.div`
 export default function Admin() {
 
     const [usuarios, setUsuarios] = useState([]);
-    const [id, setId] = useState(null);
+    const [control, setControl] = useState(false);
     const [modificar, setModificar] = useState(null);
     const [values, setValues] = useState({
-        "apellido_paterno": "",
-        "apellido_materno": "",
-        "nombre": "",
-        "password": "",
-        "username": ""
+        "apellido_paterno": '',
+        "apellido_materno": '',
+        "nombre": '',
+        "password": '',
+        "username": ''
     })
 
-    const { apellido_paterno, apellido_materno, nombre, username } = values
-
     useEffect(() => {
-        setId(null)
+        setControl(false)
         peticionGet();
-    }, [id])
+    }, [control])
 
     const peticionGet = () => {
         fetch('https://apialbum.herokuapp.com/usuario')
@@ -76,7 +73,7 @@ export default function Admin() {
                 fetch('https://apialbum.herokuapp.com/usuario/' + id, {
                     method: 'DELETE',
                 })
-                setId(id)
+                setControl(true)
                 setModificar(null)
                 setValues({
                     "id": "",
@@ -105,46 +102,6 @@ export default function Admin() {
             "username": array.username
         })
 
-    }
-
-    const handleChange = ({ target }) => {
-        setValues({
-            ...values,
-            [target.name]: target.value,
-        })
-        console.log(values)
-    }
-
-    const handleSubmit = async (e) => {
-        e.preventDefault()
-        await axios.put('https://apialbum.herokuapp.com/usuario/' + modificar.id, values)
-            .then(response => {
-                console.log(response);
-                peticionGet();
-            })
-            .catch(error => {
-                console.log(error.message)
-            })
-        setModificar(null);
-        setValues({
-            "apellido_paterno": "",
-            "apellido_materno": "",
-            "nombre": "",
-            "password": "",
-            "username": ""
-        })
-
-    }
-
-    const handleVolver = () => {
-        setModificar(null)
-        setValues({
-            "id": "",
-            "nombre": "",
-            "descripcion": "",
-            "precio": "",
-            "imagen": ""
-        })
     }
 
 
@@ -182,69 +139,13 @@ export default function Admin() {
             </div>
 
             {modificar !== null &&
-                <form className="form-signin container text-center">
-
-                    <h3 className="text-light mb-5">Edit User</h3>
-                    <div>
-                        <input
-                            type="text"
-                            name="nombre"
-                            className="form-control mt-1"
-                            placeholder="User"
-                            value={username}
-                            required=""
-                            onChange={handleChange}
-                            disabled
-                        />
-
-                        <input
-                            type="text"
-                            name="nombre"
-                            className="form-control mt-1"
-                            placeholder="Name"
-                            value={nombre}
-                            required=""
-                            onChange={handleChange}
-                        />
-                    </div>
-                    <div>
-                        <input
-                            type="text"
-                            placeholder="First Lastname"
-                            name="apellido_paterno"
-                            className="form-control mt-4"
-                            value={apellido_paterno}
-                            autoComplete="off"
-                            onChange={handleChange}
-                        />
-
-                        <input
-                            type="text"
-                            placeholder="Second Lastname"
-                            name="apellido_materno"
-                            className="form-control mt-1"
-                            autoComplete="off"
-                            value={apellido_materno}
-                            required=""
-                            onChange={handleChange}
-                        />
-                    </div>
-                    <div>
-                        <button
-                            className="btn btn-danger btn-block me-1"
-                            onClick={handleVolver}
-                        >
-                            Cancel
-                        </button>
-                        <button
-                            className="btn btn-primary btn-block"
-                            onClick={handleSubmit}
-                        >
-                            Edit
-                        </button>
-                    </div>
-
-                </form>
+                <EditAdmin 
+                values={values} 
+                modificar={modificar} 
+                setModificar={setModificar} 
+                setValues={setValues} 
+                setControl={setControl}
+                />
             }
 
         </div>
